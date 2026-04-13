@@ -45,12 +45,12 @@ export class UserRepository{
         return user
     }
 
-    async updateUser(id:string, data:Partial<User>):Promise<User | undefined>{
+    async updateUser(id:string, data:Partial<User>):Promise<User | null>{
         const user = await this.userRepository.preload({
             id,
             ...data
         })
-        if(!user) return undefined
+        if(!user) return null
 
         return this.userRepository.save(user)
     }

@@ -11,7 +11,7 @@ export class PaginationDto{
     @IsOptional()
     @IsPositive()
     @Type( () => Number )
-    limit?: number=0;
+    limit?: number=10;
 
 
   @ApiProperty({
@@ -22,5 +22,5 @@ export class PaginationDto{
     @IsOptional()
     @Min(0)
     @Type( () => Number )
-    offset?: number=10;
+    page?: number=1;
 }
