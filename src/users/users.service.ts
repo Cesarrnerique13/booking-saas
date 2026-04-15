@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 
 import { UserRepository } from './repositories/users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -6,6 +6,7 @@ import { User } from './entities/user.entity';
 import { DBError, PostgresErrorCode } from 'src/common/db/db-error.types';
 import { PaginationDto } from 'src/common/pagination/pagination.dto';
 import { PaginationInterface } from 'src/common/pagination/pagination.interface';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -27,17 +28,41 @@ export class UsersService {
 
     async findAll(pagination:PaginationDto):Promise<PaginationInterface<User>>{
         const {limit = 10, page = 1} = pagination;
-        const skip = (page - 1) * limit
-        const [data, total] = await this.userRepository.findUsers(limit,skip)
+        const skip = (page - 1) * limit;
+        const [data, total] = await this.userRepository.findUsers(limit,skip);
         return {
             data,
             total,
             page,
             limit,
             totalPages:Math.ceil(total/limit)
-        }
+        };
         
     }
+
+    async findOne(term:string):Promise<User>{
+        const user =await this.userRepository.findUser(term);
+
+           if (!user) {
+            throw new  NotFoundException(`User with term: ${term} not found`);
+           }
+            return user;
+    }
+
+    async update(id:string, data:UpdateUserDto):Promise<User>{
+        try{
+        const user = await this.userRepository.updateUser(id, data);
+         if( !user ) {
+            throw new NotFoundException(`User with id: ${id} not found`);
+        }
+        
+        return user;
+    } catch (error){
+        if (error instanceof NotFoundException) throw error;
+
+        return this.handleDBExceptions(error)
+    }
+}
 
     handleDBExceptions(error:unknown):never{
 

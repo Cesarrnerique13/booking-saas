@@ -4,8 +4,6 @@ import { Injectable} from "@nestjs/common";
 import { User } from "../entities/user.entity";
 import { DeleteResult, Repository } from "typeorm";
 import { validate as uuidValidate } from "uuid";
-import { UpdateUserDto } from "../dto/update-user.dto";
-
 
 @Injectable()
 export class UserRepository{
@@ -55,7 +53,7 @@ export class UserRepository{
         return this.userRepository.save(user)
     }
 
-    async deleteUser(id:string):Promise<DeleteResult{
+    async deleteUser(id:string):Promise<DeleteResult>{
         return this.userRepository.softDelete(id)
     }
 }
