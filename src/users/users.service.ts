@@ -64,6 +64,18 @@ export class UsersService {
     }
 }
 
+    async delete(id:string):Promise<void>{
+        try{
+            const result = await this.userRepository.deleteUser(id)
+
+            if (result.affected === 0){
+                throw new NotFoundException(`User with id: ${id} not found`);
+            }
+        } catch (error) {
+            this.handleDBExceptions(error)
+        }
+    }
+
     handleDBExceptions(error:unknown):never{
 
         const err = error as DBError

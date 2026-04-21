@@ -6,6 +6,7 @@ import { joinValidationSchema } from './config/joi.validation';
 import { UsersModule } from './users/users.module';
 import { UserRepository } from './users/repositories/users.repository';
 import { CommonModule } from './common/common.module';
+import { SeedModule } from './seed/seed.module';
 
 
 @Module({
@@ -30,7 +31,8 @@ import { CommonModule } from './common/common.module';
       })
     }),
    UsersModule,
-   CommonModule
+   CommonModule,
+   SeedModule
   ],
 })
 export class AppModule {}
