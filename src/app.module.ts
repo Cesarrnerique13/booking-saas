@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { UserRepository } from './users/repositories/users.repository';
 import { CommonModule } from './common/common.module';
 import { SeedModule } from './seed/seed.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -32,7 +33,8 @@ import { SeedModule } from './seed/seed.module';
     }),
    UsersModule,
    CommonModule,
-   SeedModule
+   SeedModule,
+   AuthModule
   ],
 })
 export class AppModule {}

@@ -1,18 +1,17 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Exclude } from "class-transformer";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('users')
 export class User {
     @PrimaryGeneratedColumn('uuid')
     id:string;
 
-    @Index()
     @Column({
         type:'varchar',
         length:50
     })
     name:string;
 
-    @Index()
     @Column({
         type:'varchar',
         length:255,
@@ -28,12 +27,32 @@ export class User {
     })
     phone:string
 
+    @Column({
+        type: 'text',
+        select: false
+    })
+    password:string;
+
+    @Column({
+        type: 'text',
+        array: true,
+        default: ['user']
+    })
+    roles:string[]
+
+    @Column({
+        type: 'bool',
+        default: true
+    })
+    isActive: boolean;
+
     @CreateDateColumn()
     createdAt: Date;
 
     @UpdateDateColumn()
     updatedAt: Date;
 
+    @Exclude()
     @DeleteDateColumn()
     deletedAt:Date;
 }
