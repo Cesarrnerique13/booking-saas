@@ -13,7 +13,7 @@ export class AuthService {
 constructor(
   private readonly usersService: UsersService,
   @InjectRepository(User)
-  private readonly usersRepository:Repository<User>
+  private readonly authRepository:Repository<User>
 ) {}
 
   async create(createAuthDto: RegisterUserDto):Promise<User> {
@@ -31,7 +31,7 @@ constructor(
   async login(loginUserDto:LoginUserDto):Promise<User>{
     const {password, email} = loginUserDto;
 
-    const user = await this.usersRepository.findOne({
+    const user = await this.authRepository.findOne({
       where: {email},
       select:{email:true, password: true}
     });
