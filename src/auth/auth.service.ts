@@ -30,7 +30,7 @@ constructor(
  
      return {
       ...user,
-      token: this.getJwtToken({email: user.email, sub:user.id})
+      token: this.getJwtToken({sub:user.id})
     }
   }
 
@@ -39,7 +39,7 @@ constructor(
 
     const user = await this.authRepository.findOne({
       where: {email},
-      select:{email:true, password: true}
+      select:{email:true, password: true, id:true}
     });
     if (!user){
       throw new UnauthorizedException('Credentials are not valid')
@@ -51,7 +51,7 @@ constructor(
 
     return {
       ...user,
-      token: this.getJwtToken({email: user.email, sub:user.id})
+      token: this.getJwtToken({sub:user.id})
     }
   }
 
