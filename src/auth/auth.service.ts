@@ -55,7 +55,7 @@ constructor(
     }
   }
 
-  private getJwtToken(paylod:JwtPayload){
-    return this.jwtService.sign(paylod);
+  private getJwtToken(payload:JwtPayload){
+    return this.jwtService.sign(payload);
   }
 }

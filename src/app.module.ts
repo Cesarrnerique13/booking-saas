@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { joinValidationSchema } from './config/joi.validation';
 import { UsersModule } from './users/users.module';
-import { UserRepository } from './users/repositories/users.repository';
 import { CommonModule } from './common/common.module';
 import { SeedModule } from './seed/seed.module';
 import { AuthModule } from './auth/auth.module';
@@ -13,28 +12,28 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal:true,
+      isGlobal: true,
       validationSchema: joinValidationSchema
-}),
+    }),
 
     TypeOrmModule.forRootAsync({
-      imports:[ConfigModule],
+      imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory:(confi: ConfigService) => ({
+      useFactory: (config: ConfigService) => ({
         type: "postgres",
-        host: confi.get<string>('DB_HOST'),
-        port: confi.get<number>('DB_PORT'),
-        username: confi.get<string>('DB_USERNAME'),
-        password: confi.get<string>('DB_PASSWORD'),
-        database: confi.get<string>('DB_NAME'),
-        autoLoadEntities:true,
-        synchronize:true
+        host: config.get<string>('DB_HOST'),
+        port: config.get<number>('DB_PORT'),
+        username: config.get<string>('DB_USERNAME'),
+        password: config.get<string>('DB_PASSWORD'),
+        database: config.get<string>('DB_NAME'),
+        autoLoadEntities: true,
+        synchronize: true
       })
     }),
-   UsersModule,
-   CommonModule,
-   SeedModule,
-   AuthModule
+    UsersModule,
+    CommonModule,
+    SeedModule,
+    AuthModule
   ],
 })
-export class AppModule {}
+export class AppModule { }
